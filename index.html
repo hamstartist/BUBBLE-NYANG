@@ -1078,7 +1078,6 @@ function drawQuirk(c,x,top,t){const e=(ham.quirkDur||3)-ham.timer;
     rect(c,Math.round(x),Math.round(top-6),1,1,"#3d6fb5")}
   else if(ham.quirk==="stare"){const n=Math.min(3,Math.floor(e*1.6));for(let i=0;i<n;i++)rect(c,Math.round(x-4+i*4),Math.round(top-6),2,2,INK)}
   else if(ham.quirk==="hop"){const ph=(e*2.4)%1;if(ph>.85||ph<.08){rect(c,Math.round(x-9),Math.round(ham.y-1),2,1,"#ffffff");rect(c,Math.round(x+8),Math.round(ham.y-1),2,1,"#ffffff")}}
-  else if(ham.quirk==="spin"){if(Math.floor(e*7)%2)rect(c,Math.round(x+10),Math.round(top+4),1,3,"#ffffff")}
 }
 function drawChar(c,t){
   const s=scaleOf(state.lv);let bob=0,step,x=ham.x,by=ham.y;
