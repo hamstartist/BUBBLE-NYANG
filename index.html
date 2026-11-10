@@ -220,7 +220,7 @@ input[type=text]:focus{outline:3px dashed var(--pink);outline-offset:3px}
       <ul>
         <li>수치가 낮을 때 돌봐 주면 경험치와 코인을 얻어요. 이미 가득 찬 수치를 또 채우면 거의 못 얻어요.</li>
         <li>LV 1~4는 아기, 5~9는 어린이, 10부터는 어른이에요. 레벨이 오를 때마다 코인 15개를 받아요.</li>
-        <li>놀이 탭의 <b>축구 승부차기</b>와 <b>간식 받기</b>로 코인을 벌어요. 축구는 한 골에 코인 6개예요.</li>
+        <li>놀이 탭의 <b>축구 승부차기</b>와 <b>간식 받기</b>로 코인을 벌어요. 축구는 한 골에 코인 6개예요. 간식 받기에서 브로콜리를 받으면 하트가 하나 줄어요(버블냥은 브로콜리를 싫어해요).</li>
       </ul>
     </section>
     <section><h3>버블냥 성격</h3>
@@ -269,7 +269,7 @@ input[type=text]:focus{outline:3px dashed var(--pink);outline-offset:3px}
   <div class="modal px">
     <div class="hud"><span id="mgScore">0</span><span id="mgLives"></span><span id="mgTime">30</span></div>
     <canvas class="mgc" id="mg" width="1800" height="900"></canvas>
-    <div class="hint" id="mgHint">화면을 누르거나 끌어서, 또는 ← → 키로 움직여요. 매운 고추는 피하세요!</div>
+    <div class="hint" id="mgHint">화면을 누르거나 끌어서, 또는 ← → 키로 움직여요. 버블냥이 싫어하는 브로콜리는 피하세요!</div>
     <div id="mgEnd" hidden style="display:flex;flex-direction:column;gap:10px;align-items:stretch">
       <h2 id="mgEndTitle">끝!</h2>
       <p id="mgEndText"></p>
@@ -1363,7 +1363,7 @@ function drawBathScene(){
 /* ---------- 미니게임: 간식 받기 ---------- */
 const mgc=$("mg").getContext("2d");mgc.k=6;let mg=null;const mgKeys={l:false,r:false};
 const GSTAR=["....y....","...yyy...","yyyyyyyyy",".yyyyyyy.","..yyyyy..",".yy...yy."];
-const PEPPER=["...g..","..gg..",".rrr..","rrrr..","rrrr..",".rrr..","..rr..","...r.."];
+const BROC=["...............", ".....ooooo.....", "....oGGgggo....", "....oGggggo....", "..ooogggggooo..", ".oGgogggggoggo.", "oGggogggggogggo", "oggggoooooggggo", "ogggggosogggggo", ".ogggoOsOogggo.", "..ooo.OsO.ooo..", "......OsO......", "......OsO......", "......OsO......", "......OOO......"];
 function startMG(){
   catchUp();if(state.sleep||state.s.energy<15)return;
   mg={x:120,tx:120,items:[],score:0,lives:3,t:0,dur:30,spawn:.4,over:false,flash:0,last:performance.now()};
@@ -1394,7 +1394,7 @@ function drawMG(){
   for(let i=0;i<6;i++){const x=i*52+14;rect(c,x,92,30,3,"#e5c3b0");rect(c,x+2,95,2,45,"#e5c3b0");rect(c,x+26,95,2,45,"#e5c3b0")}
   rect(c,0,140,W,10,"#f3d9e4");rect(c,0,140,W,2,"#e6b9cb");
   for(const it of mg.items){const x=Math.round(it.x),y=Math.round(it.y);
-    if(it.type==="rot"){blitDev(c,PEPPER,{r:"#e0473a",g:"#5fa655"},x-5,y-7,10)}
+    if(it.type==="rot"){blitDev(c,BROC,{o:"#2f6b3a",g:"#5fae5f",G:"#a6e3a1",O:"#5f8f4a",s:"#9fd38a"},x-9,y-9,7)}
     else if(it.type==="gold"){blitDev(c,GSTAR,{y:"#f5c542"},x-7,y-5,10);if(Math.floor(mg.t*8)%2)rect(c,x+6,y-6,1,1,"#ffffff")}
     else{const I=FOOD_ICON[it.type];blitDev(c,I.rows,I.pal,x-8,y-7,10)}}
   drawHam(c,mg.x,141,1/3,charOf(),{step:Math.abs(mg.tx-mg.x)>1?Math.floor(mg.t*10)%2:undefined,wear:state.wear});
@@ -1403,7 +1403,7 @@ function drawMG(){
 function endMG(){
   mg.over=true;const sc=mg.score;const newBest=sc>state.best;
   catchUp();state.coins+=sc;state.s.happy+=15;state.s.energy-=12;state.games++;if(newBest)state.best=sc;reward(8,0);clamp();
-  $("mgEndTitle").textContent=mg.lives<=0?"앗, 매워!":"시간 끝!";
+  $("mgEndTitle").textContent=mg.lives<=0?"윽… 브로콜리...":"시간 끝!";
   $("mgEndText").textContent=`${sc}점${newBest?" · 최고 기록!":""} · 코인 +${sc} · 기분 +15`;
   $("mgHint").hidden=true;$("mgEnd").hidden=false;$("mgOk").focus();
   renderAll();scheduleSave();
